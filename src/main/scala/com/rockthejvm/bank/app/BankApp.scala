@@ -7,7 +7,7 @@ import com.rockthejvm.bank.actors.PersistentBankAccount.Command
 import akka.actor.typed.scaladsl.AskPattern._
 import akka.http.scaladsl.Http
 import akka.util.Timeout
-import com.rockthejvm.bank.http.BankRouter
+import com.rockthejvm.bank.http.MainRouter
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.duration._
@@ -17,7 +17,7 @@ object BankApp {
 
   def startHttpServer(bank: ActorRef[Command])(implicit system: ActorSystem[_]): Unit = {
     implicit val ec: ExecutionContext = system.executionContext
-    val router = new BankRouter(bank)
+    val router = new MainRouter(bank)
     val routes = router.routes
 
     val httpBindingFuture = Http().newServerAt("localhost", 8080).bind(routes)
