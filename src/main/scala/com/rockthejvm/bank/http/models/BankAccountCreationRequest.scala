@@ -2,8 +2,8 @@ package com.rockthejvm.bank.http.models
 
 import akka.actor.typed.ActorRef
 import cats.implicits.catsSyntaxTuple3Semigroupal
-import com.rockthejvm.bank.actors.PersistentBankAccount.Command.CreateBankAccount
-import com.rockthejvm.bank.actors.PersistentBankAccount.{Command, Response}
+import com.rockthejvm.bank.actors.{Command, CreateBankAccount, Response}
+import com.rockthejvm.bank.actors.persistentbankaccount._
 import com.rockthejvm.bank.http.validations.Validation.{ValidationResult, Validator, validateMinimum, validateMinimumAbs, validateRequired}
 
 case class BankAccountCreationRequest(user: String, currency: String, balance: Double) {

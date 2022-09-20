@@ -1,45 +1,18 @@
-package com.rockthejvm.bank.actors
+package com.rockthejvm.bank.actors.persistentbankaccount
 
-import akka.actor.typed.{ActorRef, Behavior}
+import akka.actor.typed.Behavior
 import akka.persistence.typed.PersistenceId
 import akka.persistence.typed.scaladsl.{Effect, EventSourcedBehavior}
+import com.rockthejvm.bank.actors.{BankAccountBalanceUpdatedResponse, BankAccountCreatedResponse, Command, CreateBankAccount, GetBankAccount, GetBankAccountResponse, UpdateBalance}
 
-import scala.util.{Failure, Success, Try}
+import scala.util.{Failure, Success}
 
 // a single bank account
 object PersistentBankAccount {
-
   /*
      - fault tolerance
      - auditing
    */
-
-  // commands = messages
-  sealed trait Command
-  object Command {
-    case class CreateBankAccount(user: String, currency: String, initialBalance: Double, replyTo: ActorRef[Response]) extends Command
-    case class UpdateBalance(id: String, currency: String, amount: Double /* can be < 0*/, replyTo: ActorRef[Response]) extends Command
-    case class GetBankAccount(id: String, replyTo: ActorRef[Response]) extends Command
-  }
-
-  // events = to persist to Cassandra
-  trait Event
-  case class BankAccountCreated(bankAccount: BankAccount) extends Event
-  case class BalanceUpdated(amount: Double) extends Event
-
-  // state
-  case class BankAccount(id: String, user: String, currency: String, balance: Double)
-
-  // responses
-  sealed trait Response
-  object Response {
-    case class BankAccountCreatedResponse(id: String) extends Response
-    case class BankAccountBalanceUpdatedResponse(maybeBankAccount: Try[BankAccount]) extends Response
-    case class GetBankAccountResponse(maybeBankAccount: Option[BankAccount]) extends Response
-  }
-
-  import Command._
-  import Response._
 
   // command handler = message handler => persist an event
   // event handler => update state

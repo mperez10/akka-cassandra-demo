@@ -26,7 +26,7 @@ trait BankRoutes {
         2)  404 Not found
    */
   type StringToRoute = String => Route
-  val rootEndpoint = "bank7"
+  val rootEndpoint = "bank907"
 
   def routesBank(postBankAccountCreation: Route,
                  getBankAccountInformation: StringToRoute,

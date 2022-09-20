@@ -1,17 +1,18 @@
 package com.rockthejvm.bank.app
 
-import akka.actor.typed.{ActorRef, ActorSystem, Behavior}
-import akka.actor.typed.scaladsl.Behaviors
-import com.rockthejvm.bank.actors.Bank
-import com.rockthejvm.bank.actors.PersistentBankAccount.Command
 import akka.actor.typed.scaladsl.AskPattern._
+import akka.actor.typed.scaladsl.Behaviors
+import akka.actor.typed.{ActorRef, ActorSystem, Behavior}
 import akka.http.scaladsl.Http
 import akka.util.Timeout
+import com.rockthejvm.bank.actors.Command
+import com.rockthejvm.bank.actors.bank.Bank
+import com.rockthejvm.bank.app.models.{RetrieveBankActor, RootCommand}
 import com.rockthejvm.bank.http.MainRouter
 
-import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.duration._
-import scala.util.{Try, Success, Failure}
+import scala.concurrent.{ExecutionContext, Future}
+import scala.util.{Failure, Success}
 
 object BankApp {
 
@@ -32,9 +33,6 @@ object BankApp {
   }
 
   def main(args: Array[String]): Unit = {
-    trait RootCommand
-    case class RetrieveBankActor(replyTo: ActorRef[ActorRef[Command]]) extends RootCommand
-
     val rootBehavior: Behavior[RootCommand] = Behaviors.setup { context =>
       val bankActor = context.spawn(Bank(), "bank")
       Behaviors.receiveMessage {

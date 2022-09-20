@@ -2,8 +2,8 @@ package com.rockthejvm.bank.http.models
 
 import akka.actor.typed.ActorRef
 import cats.implicits.catsSyntaxTuple2Semigroupal
-import com.rockthejvm.bank.actors.PersistentBankAccount.Command.UpdateBalance
-import com.rockthejvm.bank.actors.PersistentBankAccount.{Command, Response}
+import com.rockthejvm.bank.actors.{Command, Response, UpdateBalance}
+import com.rockthejvm.bank.actors.persistentbankaccount._
 import com.rockthejvm.bank.http.validations.Validation.{ValidationResult, Validator, validateMinimumAbs, validateRequired}
 
 case class BankAccountUpdateRequest(currency: String, amount: Double) {

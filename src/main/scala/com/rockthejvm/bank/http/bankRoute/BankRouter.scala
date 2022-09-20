@@ -7,11 +7,8 @@ import akka.http.scaladsl.model.headers.Location
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.util.Timeout
-import cats.data.Validated.{Invalid, Valid}
-import com.rockthejvm.bank.actors.PersistentBankAccount.Command._
-import com.rockthejvm.bank.actors.PersistentBankAccount.{Command, Response}
-import com.rockthejvm.bank.actors.PersistentBankAccount.Response._
-import com.rockthejvm.bank.http.validations.Validation.{Validator, validateEntity}
+import com.rockthejvm.bank.actors.{BankAccountBalanceUpdatedResponse, BankAccountCreatedResponse, Command, GetBankAccount, GetBankAccountResponse, Response}
+import com.rockthejvm.bank.actors.persistentbankaccount._
 import com.rockthejvm.bank.http.models.BankAccountCreationRequest.validator
 import com.rockthejvm.bank.http.models.{BankAccountCreationRequest, BankAccountUpdateRequest, FailureResponse}
 import com.rockthejvm.bank.http.validations.ValidatableRequest
